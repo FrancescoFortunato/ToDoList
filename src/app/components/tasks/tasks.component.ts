@@ -8,10 +8,9 @@ import { ModalTaskComponent } from '../modal-task/modal-task.component';
 @Component({
   selector: 'app-tasks',
   templateUrl: './tasks.component.html',
-  styleUrls: ['./tasks.component.css']
+  styleUrls: ['./tasks.component.css'],
 })
 export class TasksComponent implements OnInit {
-  
   tasks: Task[];
   tasksPage: Task[];
   statuses: string[];
@@ -27,7 +26,7 @@ export class TasksComponent implements OnInit {
     private modalService: NgbModal
   ) {
     this.tasks = this.statuses = [];
-   }
+  }
 
   ngOnInit(): void {
     this.getListTask();
@@ -39,30 +38,28 @@ export class TasksComponent implements OnInit {
   }
 
   open(inTask: Task = new Task(this.tasks.length), actionTask: ActionTask = ActionTask.NEW_TASK): void {
-    
     const modalRef = this.modalService.open(ModalTaskComponent);
     //const modalRef = this.modalService.open(ModalTask2Component);
     modalRef.componentInstance.inTask = inTask;
     modalRef.componentInstance.actionTask = actionTask;
     modalRef.componentInstance.statues = this.statuses;
     modalRef.componentInstance.outTask.subscribe((value) => {
-    const indexOfValue = this.tasks.findIndex(task => task.id === value.id);
-    
-    if (indexOfValue > -1 && JSON.stringify(this.tasks[indexOfValue]) !== JSON.stringify(value))
-      this.changeTask(value, indexOfValue);
-    else if(indexOfValue < 0)
-      this.addTask(value);
-      
-    })
+      const indexOfValue = this.tasks.findIndex((task) => task.id === value.id);
+
+      if (indexOfValue > -1 && JSON.stringify(this.tasks[indexOfValue]) !== JSON.stringify(value))
+        this.changeTask(value, indexOfValue);
+      else if (indexOfValue < 0) this.addTask(value);
+    });
   }
 
   getActionTask(): typeof ActionTask {
-    return ActionTask; 
+    return ActionTask;
   }
 
   refreshTasks() {
     this.collectionSize = this.tasks.length;
-    this.viewTasks = this.tasks.map((task, i) => ({id: i + 1, ...task}))
+    this.viewTasks = this.tasks
+      .map((task, i) => ({ id: i + 1, ...task }))
       .slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize);
   }
 
@@ -70,12 +67,13 @@ export class TasksComponent implements OnInit {
   getListTask(): void {
     this.spinner.show();
     this.taskService.getListTask().subscribe(
-      result => {
+      (result) => {
         this.spinner.hide();
         this.tasks = result;
-        this.tasks.forEach(task => task.date = new Date(task.date));
+        this.tasks.forEach((task) => (task.date = new Date(task.date)));
         this.refreshTasks();
-      }, error => {
+      },
+      (error) => {
         this.spinner.hide();
         this.msgService.showErrorMessage(error.message);
       }
@@ -85,10 +83,11 @@ export class TasksComponent implements OnInit {
   getStatus(): void {
     this.spinner.show();
     this.taskService.getStatuses().subscribe(
-      result => {
+      (result) => {
         this.spinner.hide();
         this.statuses = result;
-      }, error => {
+      },
+      (error) => {
         this.spinner.hide();
         this.msgService.showErrorMessage(error.message);
       }
@@ -97,14 +96,15 @@ export class TasksComponent implements OnInit {
   addTask(task: Task): void {
     this.spinner.show();
     this.taskService.addTask(task).subscribe(
-      result => {
+      (result) => {
         this.spinner.hide();
         this.tasks.push(task);
         this.refreshTasks();
-        this.msgService.showInfoMessage("task successfully added!");
+        this.msgService.showInfoMessage('task successfully added!');
         //uncomment when connecting the backend
         //this.getListTask();
-      }, error => {
+      },
+      (error) => {
         this.spinner.hide();
         this.msgService.showErrorMessage(error.message);
       }
@@ -114,39 +114,40 @@ export class TasksComponent implements OnInit {
   changeTask(task: Task, indexOfValue: number): void {
     this.spinner.show();
     this.taskService.changeTask(task).subscribe(
-      result => {
+      (result) => {
         this.spinner.hide();
         this.tasks[indexOfValue] = task;
         this.refreshTasks();
-        this.msgService.showInfoMessage("task modified!");
+        this.msgService.showInfoMessage('task modified!');
         //uncomment when connecting the backend
         //this.getListTask();
-      }, error => {
+      },
+      (error) => {
         this.spinner.hide();
         this.msgService.showErrorMessage(error.message);
       }
     );
   }
 
-  
   deleteTask(task: Task): void {
     this.msgService.showConfirmMessage('Are you sure you want to delete this task?', () => {
-    this.spinner.show();
-    this.taskService.deleteTask(task).subscribe(
-      result => {
-        this.spinner.hide();
-        this.msgService.showInfoMessage("task modified!");
-        //comment this part when connecting the backend
-        const index = this.tasks.findIndex(checkTask => checkTask.id === task.id);
-        if (index > -1)
-          this.tasks.splice(index, 1);
-        this.refreshTasks();
-        //uncomment when connecting the backend
-        //this.getListTask();
-      }, error => {
-        this.spinner.hide();
-        this.msgService.showErrorMessage(error.message);
-      }
-    )});
+      this.spinner.show();
+      this.taskService.deleteTask(task).subscribe(
+        (result) => {
+          this.spinner.hide();
+          this.msgService.showInfoMessage('task modified!');
+          //comment this part when connecting the backend
+          const index = this.tasks.findIndex((checkTask) => checkTask.id === task.id);
+          if (index > -1) this.tasks.splice(index, 1);
+          this.refreshTasks();
+          //uncomment when connecting the backend
+          //this.getListTask();
+        },
+        (error) => {
+          this.spinner.hide();
+          this.msgService.showErrorMessage(error.message);
+        }
+      );
+    });
   }
 }

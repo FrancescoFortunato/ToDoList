@@ -1,10 +1,10 @@
 export class StatusResponse {
-    errCode: number;
-    errDetail: string;
-    errMsg: string;
+  errCode: number;
+  errDetail: string;
+  errMsg: string;
 }
 
 export class HttpCustomResponse {
-    result: StatusResponse;
-    data: any;
+  result: StatusResponse;
+  data: any;
 }

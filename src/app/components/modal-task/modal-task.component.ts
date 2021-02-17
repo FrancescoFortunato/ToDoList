@@ -1,10 +1,9 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { NgbDate, NgbCalendar, NgbDateParserFormatter, NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap';
 import { Task, ActionTask } from '@core/models';
-import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CustomAdapter } from './date-adapter';
 import { CustomDateParserFormatter } from './date-formatter';
-
 
 @Component({
   selector: 'app-modal-task',
@@ -12,8 +11,8 @@ import { CustomDateParserFormatter } from './date-formatter';
   styleUrls: ['./modal-task.component.css'],
   providers: [
     { provide: NgbDateAdapter, useClass: CustomAdapter },
-    { provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter }
-  ]
+    { provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter },
+  ],
 })
 export class ModalTaskComponent implements OnInit {
   @Input() inTask: Task;
@@ -28,28 +27,24 @@ export class ModalTaskComponent implements OnInit {
     public formatter: NgbDateParserFormatter,
     private calendar: NgbCalendar,
     private dateAdapter: NgbDateAdapter<string>
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-    
-    this.dataForm = {... this.inTask};
+    this.dataForm = { ...this.inTask };
     const tmpDate = new Date(this.dataForm.date);
-    this.insertDate = this.dateAdapter.toModel(this.calendar.getPrev(
-      new NgbDate(
-        tmpDate.getFullYear(), 
-        tmpDate.getMonth() + 1, 
-        tmpDate.getDate() + 1)));
+    this.insertDate = this.dateAdapter.toModel(
+      this.calendar.getPrev(new NgbDate(tmpDate.getFullYear(), tmpDate.getMonth() + 1, tmpDate.getDate() + 1))
+    );
   }
-  
+
   getActionTask(): typeof ActionTask {
-    return ActionTask; 
+    return ActionTask;
   }
-  editTask(): void  {
+  editTask(): void {
     this.actionTask = ActionTask.EDIT_TASK;
   }
-  
+
   save(form: any) {
-    const methodName = 'save';
     // validation form
     if (!form.valid) {
       this.isSubmit = true;
@@ -60,5 +55,4 @@ export class ModalTaskComponent implements OnInit {
     this.outTask.emit(this.dataForm);
     this.activeModal.close('Close click');
   }
-
 }

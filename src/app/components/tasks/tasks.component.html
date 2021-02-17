@@ -1,81 +1,92 @@
-
-  <div class="row" style="margin-right: 0px;margin-left: 0px">
-    <div class="col-12">
-      <div class="row">
-        <div class="col-md-6">
-          <h5 class="p-3">Task List</h5>
-        </div>
+<div class="row" style="margin-right: 0px; margin-left: 0px">
+  <div class="col-12">
+    <div class="row">
+      <div class="col-md-6">
+        <h5 class="p-3">Task List</h5>
       </div>
     </div>
   </div>
+</div>
 
-  <div class="row" style="margin-right: 0px;margin-left: 0px"> 
-    <div class="col-12">
-      <div class="card">
-        <div class="card-body">
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th scope="col" hidden>#</th>
-                <th scope="col">Title</th>
-                <th scope="col">Description</th>
-                <th scope="col">Status</th>
-                <th scope="col">Date</th>
-                <th scope="col">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-                <tr mdbTableCol *ngFor="let task of viewTasks | taskFilterPipe:'asc': 'id'">
-                  <th scope="row" hidden>
-                    {{task.id}}
-                  </th>
-                  <td (click)="open(task, getActionTask().SHOW_TASK)" style="cursor: pointer;">
-                    {{task.title}}
-                  </td>
-                  <td (click)="open(task, getActionTask().SHOW_TASK)" style="cursor: pointer;">
-                    {{task.description}}
-                  </td>
-                  <td (click)="open(task, getActionTask().SHOW_TASK)" style="cursor: pointer;">
-                    {{task.status}}
-                  </td>
-                  <td (click)="open(task, getActionTask().SHOW_TASK)" style="cursor: pointer;">
-                    {{task.date  | date : 'dd/MM/yyyy'}}
-                  </td>
-                  <td>
-                    <div class="row">
-                      <div class="btn-group" role="group" aria-label="Basic example">
-                        <div class="col-4">
-                          <button type="button" class="btn btn-primary" (click)="open(task, getActionTask().EDIT_TASK)">EDIT</button>
-                        </div>
-                        <div class="col-4">
-                          <button type="button" class="btn btn-primary" (click)="deleteTask(task)">DELETE</button>
-                        </div>
-                      </div> 
+<div class="row" style="margin-right: 0px; margin-left: 0px">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col" hidden>#</th>
+              <th scope="col">Title</th>
+              <th scope="col">Description</th>
+              <th scope="col">Status</th>
+              <th scope="col">Date</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr mdbTableCol *ngFor="let task of viewTasks | taskFilterPipe: 'asc':'id'">
+              <th scope="row" hidden>
+                {{ task.id }}
+              </th>
+              <td (click)="open(task, getActionTask().SHOW_TASK)" style="cursor: pointer">
+                {{ task.title }}
+              </td>
+              <td (click)="open(task, getActionTask().SHOW_TASK)" style="cursor: pointer">
+                {{ task.description }}
+              </td>
+              <td (click)="open(task, getActionTask().SHOW_TASK)" style="cursor: pointer">
+                {{ task.status }}
+              </td>
+              <td (click)="open(task, getActionTask().SHOW_TASK)" style="cursor: pointer">
+                {{ task.date | date: 'dd/MM/yyyy' }}
+              </td>
+              <td>
+                <div class="row">
+                  <div class="btn-group" role="group" aria-label="Basic example">
+                    <div class="col-4">
+                      <button type="button" class="btn btn-primary" (click)="open(task, getActionTask().EDIT_TASK)">
+                        EDIT
+                      </button>
                     </div>
-                  </td>
-                </tr>
-            </tbody>
-          </table> 
-        </div>
+                    <div class="col-4">
+                      <button type="button" class="btn btn-primary" (click)="deleteTask(task)">DELETE</button>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
+</div>
 
-  <div class="row" style="margin-right: 0px;margin-left: 0px"> 
-    <div class="col-12">
-    
-          <div class="d-flex justify-content-between p-2">
-            <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize" (pageChange)="refreshTasks()">
-            </ngb-pagination>
-            
-            <button type="btn btn-primary"  class="btn btn-primary" style="height: calc(1.5em + 0.75rem + 2px)"(click)="newTask()">INSERT TASK</button>
+<div class="row" style="margin-right: 0px; margin-left: 0px">
+  <div class="col-12">
+    <div class="d-flex justify-content-between p-2">
+      <ngb-pagination
+        [collectionSize]="collectionSize"
+        [(page)]="page"
+        [pageSize]="pageSize"
+        (pageChange)="refreshTasks()"
+      >
+      </ngb-pagination>
 
-            <select class="custom-select" style="width: auto" [(ngModel)]="pageSize" (ngModelChange)="refreshTasks()">
-              <option [ngValue]="2">2 tasks per page</option>
-              <option [ngValue]="5">5 tasks per page</option>
-              <option [ngValue]="10">10 tasks per page</option>
-            </select>
-         
-      </div>
+      <button
+        type="btn btn-primary"
+        class="btn btn-primary"
+        style="height: calc(1.5em + 0.75rem + 2px)"
+        (click)="newTask()"
+      >
+        INSERT TASK
+      </button>
+
+      <select class="custom-select" style="width: auto" [(ngModel)]="pageSize" (ngModelChange)="refreshTasks()">
+        <option [ngValue]="2">2 tasks per page</option>
+        <option [ngValue]="5">5 tasks per page</option>
+        <option [ngValue]="10">10 tasks per page</option>
+      </select>
     </div>
   </div>
+</div>

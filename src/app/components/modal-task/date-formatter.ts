@@ -7,16 +7,15 @@ import { NgbDateParserFormatter, NgbDateStruct } from '@ng-bootstrap/ng-bootstra
  */
 @Injectable()
 export class CustomDateParserFormatter extends NgbDateParserFormatter {
-
   readonly DELIMITER = '/';
 
   parse(value: string): NgbDateStruct | null {
     if (value) {
       let date = value.split(this.DELIMITER);
       return {
-        day : parseInt(date[0], 10),
-        month : parseInt(date[1], 10),
-        year : parseInt(date[2], 10)
+        day: parseInt(date[0], 10),
+        month: parseInt(date[1], 10),
+        year: parseInt(date[2], 10),
       };
     }
     return null;
@@ -24,7 +23,12 @@ export class CustomDateParserFormatter extends NgbDateParserFormatter {
 
   format(date: NgbDateStruct | null): string {
     // return date ? date.day + this.DELIMITER + date.month + this.DELIMITER + date.year : '';
-    return date ? date.day.toString().padStart(2, '0') + this.DELIMITER + date.month.toString().padStart(2, '0') + this.DELIMITER + date.year : null;
+    return date
+      ? date.day.toString().padStart(2, '0') +
+          this.DELIMITER +
+          date.month.toString().padStart(2, '0') +
+          this.DELIMITER +
+          date.year
+      : null;
   }
 }
-

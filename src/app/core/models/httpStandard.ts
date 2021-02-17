@@ -3,7 +3,6 @@ import { throwError } from 'rxjs';
 import { HttpCustomResponse } from '@core/models';
 
 export class HttpStandard {
-
   static extractData(res: HttpCustomResponse) {
     // controllo errori
     if (res.result.errCode !== 200) {
@@ -32,7 +31,6 @@ export class HttpStandard {
   }
 
   static handleError(error: any) {
-
     // errore http
     if (error instanceof HttpErrorResponse) {
       console.log('error');
@@ -49,15 +47,14 @@ export class HttpStandard {
     const errorData = error.data;
 
     //let message = 'Si è verificato un errore imprevisto. Si prega di riprovare';
-    
+
     const message = this.switchCodeError(errorRes.errCode);
 
     return throwError({
       message: message,
       status: errorRes.errCode,
       errorBody: errorRes,
-      data: errorData || {}
+      data: errorData || {},
     });
-
   }
 }
