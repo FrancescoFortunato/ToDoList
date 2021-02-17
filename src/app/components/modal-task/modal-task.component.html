@@ -82,14 +82,13 @@
                     <div class="form-group">
                         <label class="card-text" for="date"><b>Date:</b></label>
                         <div class="input-group">
-                            <input class="form-control" placeholder="dd/mm/yyyy" name="dateFrom"
+                            <input class="form-control" placeholder="dd/mm/yyyy" name="dateInput"
                                 #fromDateModel="ngModel" [(ngModel)]="insertDate" ngbDatepicker
-                                #dateFrom="ngbDatepicker"
-                                (ngModelChange)="onFromDateSelected()"
+                                #dateInput="ngbDatepicker"
                                 [ngClass]="{'is-invalid': !fromDateModel.valid }">
                             <div class="input-group-append">
 
-                                <span class="input-group-text" (click)="dateFrom.toggle()">
+                                <span class="input-group-text" (click)="dateInput.toggle()">
                                     <i class="fa fa-calendar"></i>
                                 </span>
                         

@@ -25,7 +25,7 @@
               </tr>
             </thead>
             <tbody>
-                <tr mdbTableCol *ngFor="let task of viewTasks">
+                <tr mdbTableCol *ngFor="let task of viewTasks | taskFilterPipe:'asc': 'id'">
                   <th scope="row" hidden>
                     {{task.id}}
                   </th>

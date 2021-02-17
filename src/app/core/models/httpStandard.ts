@@ -24,60 +24,13 @@ export class HttpStandard {
         message = 'Non è possibile procedere con la richiesta: cliente non trovato';
         break;
       }
-      case 405: {
-        message = 'Non è possibile procedere con la richiesta: operatore non trovato';
-        break;
-      }
-      case 412: {
-        message = 'Parametri di ricerca non validi';
-        break;
-      }
-      case 413: {
-        message = 'Annullamento voucher regalato non riuscito. Nono risultano voucher regalati.';
-        break;
-      }
-      case 421: {
-        message = 'Parametri di ricerca non validi';
-        break;
-      }
-      case 422: {
-        message = 'Non è possibile procedere con la richiesta: cliente non valido';
-        break;
-      }
-      case 423: {
-        message = 'Non è possibile procedere con la richiesta: dati mancanti';
-        break;
-      }
-      case 425: {
-        message = 'Non è possibile procedere con la richiesta: occorre completare la procedura di optin';
-        break;
-      }
-      case 426: {
-        message = 'Utenza bloccata.';
-        break;
-      }
-      case 427: {
-        message = 'Non è possibile procedere con la richiesta: operatore non valido';
-        break;
-      }
-      case 428: {
-        message = 'I dati inseriti non sono corretti';
-        break;
-      }
-      case 430: {
-        message = 'Rivolgersi all\'amministrazione';
-        break;
-      }
       default: {
-        //statements; 
         break;
       }
     }
     return message;
   }
 
-  // da qui passano gli errori custom e gli errori http
-  // l'oggetto ritorato deve essere lo stesso
   static handleError(error: any) {
 
     // errore http
@@ -92,19 +45,12 @@ export class HttpStandard {
       return throwError({ message: errMsg, status: error.status, errorBody: error.error });
     }
 
-    // errore custom
     const errorRes = error.result;
     const errorData = error.data;
 
-    let message = 'Si è verificato un errore imprevisto. Si prega di riprovare';
-    if (errorRes.errCode === 422) {
-      message = 'messaggio specifico';
-    } else if (errorRes.errCode === 412) {
-      console.log('errore 422');
-      message = 'messaggio specifico';
-    }
-
-    message = this.switchCodeError(errorRes.errCode);
+    //let message = 'Si è verificato un errore imprevisto. Si prega di riprovare';
+    
+    const message = this.switchCodeError(errorRes.errCode);
 
     return throwError({
       message: message,

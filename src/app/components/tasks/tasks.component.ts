@@ -12,8 +12,6 @@ import { ModalTaskComponent } from '../modal-task/modal-task.component';
 })
 export class TasksComponent implements OnInit {
   
-  className = 'TasksComponent.';
-
   tasks: Task[];
   tasksPage: Task[];
   statuses: string[];
@@ -41,24 +39,19 @@ export class TasksComponent implements OnInit {
   }
 
   open(inTask: Task = new Task(this.tasks.length), actionTask: ActionTask = ActionTask.NEW_TASK): void {
-    const methodName = 'open';
+    
     const modalRef = this.modalService.open(ModalTaskComponent);
     //const modalRef = this.modalService.open(ModalTask2Component);
     modalRef.componentInstance.inTask = inTask;
     modalRef.componentInstance.actionTask = actionTask;
     modalRef.componentInstance.statues = this.statuses;
     modalRef.componentInstance.outTask.subscribe((value) => {
-      const indexOfValue = this.tasks.findIndex(task => task.id === value.id);
-      console.log(this.className + methodName + ' - task[' + indexOfValue + ']: ' + JSON.stringify(this.tasks[indexOfValue]) )
-      console.log(this.className + methodName + ' - value: ' + JSON.stringify(value) )
-      console.log(this.className + methodName + ' - is equals: ' + (JSON.stringify(this.tasks[indexOfValue]) != JSON.stringify(value)));
-      console.log(this.className + methodName + ' - index > -1: ' + (indexOfValue > -1));
-
-      
-      if (indexOfValue > -1 && JSON.stringify(this.tasks[indexOfValue]) !== JSON.stringify(value))
-        this.changeTask(value, indexOfValue);
-      else if(indexOfValue < 0)
-        this.addTask(value);
+    const indexOfValue = this.tasks.findIndex(task => task.id === value.id);
+    
+    if (indexOfValue > -1 && JSON.stringify(this.tasks[indexOfValue]) !== JSON.stringify(value))
+      this.changeTask(value, indexOfValue);
+    else if(indexOfValue < 0)
+      this.addTask(value);
       
     })
   }
@@ -75,15 +68,12 @@ export class TasksComponent implements OnInit {
 
   /* CALL SERVICE TASK*/
   getListTask(): void {
-    const methodName = 'getListTask';
     this.spinner.show();
     this.taskService.getListTask().subscribe(
       result => {
         this.spinner.hide();
         this.tasks = result;
         this.tasks.forEach(task => task.date = new Date(task.date));
-        console.log(this.className + methodName + ' - tasks;');
-        console.log(this.tasks);
         this.refreshTasks();
       }, error => {
         this.spinner.hide();
@@ -140,7 +130,6 @@ export class TasksComponent implements OnInit {
 
   
   deleteTask(task: Task): void {
-    const methodName = 'delete';
     this.msgService.showConfirmMessage('Are you sure you want to delete this task?', () => {
     this.spinner.show();
     this.taskService.deleteTask(task).subscribe(
@@ -148,10 +137,7 @@ export class TasksComponent implements OnInit {
         this.spinner.hide();
         this.msgService.showInfoMessage("task modified!");
         //comment this part when connecting the backend
-       // const index = this.tasks.indexOf(task);
         const index = this.tasks.findIndex(checkTask => checkTask.id === task.id);
-        console.log(this.className + methodName + ' - index: ' + index);
-        console.log(this.className + methodName + ' - task.id: ' + task.id);
         if (index > -1)
           this.tasks.splice(index, 1);
         this.refreshTasks();

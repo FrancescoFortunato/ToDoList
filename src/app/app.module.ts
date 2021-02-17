@@ -10,11 +10,15 @@ import { ModalTaskComponent } from './components/modal-task/modal-task.component
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TaskFilterPipePipe } from './components/tasks/task-filter-pipe.pipe';
+
+
 @NgModule({
   declarations: [
     AppComponent,
     TasksComponent,
-    ModalTaskComponent
+    ModalTaskComponent,
+    TaskFilterPipePipe
   ],
   imports: [
     BrowserModule,
