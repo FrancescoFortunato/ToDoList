@@ -10,7 +10,7 @@
       <div *ngIf="actionTask === getActionTask().SHOW_TASK" class="card-body">
         <p class="card-text"><b>Description:</b> <br />{{ inTask.description }}</p>
         <p class="card-text"><b>Status:</b><br />{{ inTask.status }}</p>
-        <p class="card-text"><b>Date: </b><br />{{ inTask.date }}</p>
+        <p class="card-text"><b>Date: </b><br />{{ inTask.date | date: 'dd/MM/yyyy' }}</p>
       </div>
     </div>
   </div>
