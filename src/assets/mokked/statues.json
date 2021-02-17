@@ -1,0 +1,10 @@
+{
+    "result": {
+        "errCode": 200,
+        "errDetail": "",
+        "errMsg": ""
+    },
+    "data": [
+        "INSERT", "PROSSESING", "COMPLETE"
+    ]
+}

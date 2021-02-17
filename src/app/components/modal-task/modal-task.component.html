@@ -1,0 +1,111 @@
+<div *ngIf="actionTask === getActionTask().SHOW_TASK">
+    <div class="modal-header">
+        <h4 class="modal-title">{{inTask.title}}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="card lesson-border">
+            <div *ngIf="actionTask === getActionTask().SHOW_TASK" class="card-body">
+                <p class="card-text"><b>Description:</b> <br>{{inTask.description}}</p>
+                <p class="card-text"><b>Status:</b><br>{{inTask.status}}</p>
+                <p class="card-text"><b>Date: </b><br>{{inTask.date}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <button type="button" class="btn btn-outline-dark" (click)="editTask()">EDIT</button>
+            <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">CLOSE</button>
+        </div>
+    </div>
+</div>
+
+<form *ngIf="actionTask === getActionTask().EDIT_TASK || actionTask === getActionTask().NEW_TASK"  #validationForm="ngForm" class="editForm">
+    <div class="form-group">
+        <div class="modal-header">
+            <h4 class="modal-title">{{actionTask === getActionTask().EDIT_TASK ? 'EDIT' : 'NEW TASK'}}</h4>
+            <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="card lesson-border">
+                
+                <div class="card-body">
+                    <div class="form-group">
+                        <label class="card-text" for="description"><b>Title:</b></label>
+                        <input class="form-control"  
+                            style="height:100%;" 
+                            maxlength="100" 
+                            placeholder="comment" 
+                            name="title"
+                            [ngClass]="{'is-invalid': (!titleInput.valid && (titleInput.dirty || titleInput.touched ))}"
+                            #titleInput="ngModel"
+                            required
+                            [(ngModel)]="dataForm.title">
+                            <label *ngIf="!titleInput.valid && (titleInput.dirty || titleInput.touched )"
+                                class="error jquery-validation-error small form-text invalid-feedback">Required Field</label>
+                    </div>
+                    <div class="form-group">
+                        <label class="card-text" for="description"><b>Description:</b></label>
+                        <textarea 
+                            matTextareaAutosize 
+                            class="form-control"
+                            style="height:100%;" 
+                            rows=10
+                            maxlength="500" 
+                            placeholder="comment"
+                            name="description"
+                            [(ngModel)]="dataForm.description"
+                            >
+                        </textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="card-text" for="statues"><b>Statues:</b></label>
+                        <select id="statues" 
+                            class="form-control selectpicker show-menu-arrow"
+                            name="selectStatus"
+                            [ngClass]="{'is-invalid': (!statusInput.valid && (statusInput.dirty || statusInput.touched ))}"
+                            #statusInput="ngModel"
+                            required
+                            [(ngModel)]="dataForm.status"
+                        >
+                            <option *ngFor="let status of statues" [ngValue]="status">{{status}}</option>
+                        </select>
+                        <label *ngIf="!statusInput.valid && (statusInput.dirty || statusInput.touched )"
+                        class="error jquery-validation-error small form-text invalid-feedback">Required Field</label>
+    
+                    
+                    </div>
+                    <div class="form-group">
+                        <label class="card-text" for="date"><b>Date:</b></label>
+                        <div class="input-group">
+                            <input class="form-control" placeholder="dd/mm/yyyy" name="dateFrom"
+                                #fromDateModel="ngModel" [(ngModel)]="insertDate" ngbDatepicker
+                                #dateFrom="ngbDatepicker"
+                                (ngModelChange)="onFromDateSelected()"
+                                [ngClass]="{'is-invalid': !fromDateModel.valid }">
+                            <div class="input-group-append">
+
+                                <span class="input-group-text" (click)="dateFrom.toggle()">
+                                    <i class="fa fa-calendar"></i>
+                                </span>
+                        
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        <div class="modal-footer">
+            <div class="btn-group" role="group" aria-label="Basic example">
+                <button type="submit" class="btn btn-outline-dark" [disabled]="!validationForm.valid" (click)="save(validationForm)">SAVE</button>
+                <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">CLOSE</button>
+            </div> 
+        </div>
+    </div>
+
+</form>
